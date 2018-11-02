@@ -86,7 +86,10 @@ COPY ./pagespeed_libraries_generator.sh /usr/local/sbin/
 ADD ./nginx_conf.tar.gz /etc/nginx/
 ADD ./app.tar.gz /
 
-RUN mkdir -p /var/cache/nginx \
+RUN mkdir -p /etc/nginx/certs \
+    && openssl dhparam -out /etc/nginx/certs/dhparams.pem 2048 \
+    && openssl rand 48 > /etc/nginx/certs/session_ticket.key \
+    && mkdir -p /var/cache/nginx \
     && curl -sS https://getcomposer.org/installer | php7.2 -- --install-dir=/usr/local/bin --filename=composer \
     && /usr/local/sbin/pagespeed_libraries_generator.sh > /etc/nginx/conf.d/pagespeed_libraries.conf \
     && ln -sf /usr/share/nginx/modules-available/mod-pagespeed.conf /etc/nginx/modules-enabled/50-mod-pagespeed.conf \
