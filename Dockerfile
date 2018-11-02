@@ -101,7 +101,7 @@ RUN chmod +x /app/bin/start
 RUN find /var/log/ -type f -exec rm -f {} \;
 
 # PORT
-EXPOSE 80
+EXPOSE 80 443
 
 # VOLUME
 VOLUME /app
