@@ -2,7 +2,7 @@ version: '2'
 
 services:
    db:
-     image: mysql:5.7
+     image: mariadb:10.3
      volumes:
        - db_data:/var/lib/mysql
      restart: always
@@ -13,7 +13,7 @@ services:
        MYSQL_PASSWORD: password
 
    web:
-     image: ieast/nginx-php-fpm7.2:latest
+     image: icodex/docker-nginx-php:latest
      ports:
        - 80
      volumes:
@@ -24,6 +24,7 @@ services:
        MYSQL_DATABASE: database
        MYSQL_USER: user
        MYSQL_PASSWORD: password
+       MEMCACHED_HOST: memcached:11211
        REDIS_HOST: redis:6379
 
    redis:
@@ -34,8 +35,14 @@ services:
        - data:/data
      restart: always
 
+   memcached:
+     image: memcached:1.5
+     ports:
+       - 11211
+     restart: always
+
    lb:
-     image: haproxy
+     image: haproxy:1.8
      ports:
        - 80:80
        - 443:443
