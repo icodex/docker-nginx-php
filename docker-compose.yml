@@ -44,8 +44,8 @@ services:
    lb:
      image: icodex/docker-haproxy:latest
      ports:
-       - 80:80
-       - 443:443
+       - 80
+       - 443
      volumes:
        - haproxy:/usr/local/etc/haproxy
      restart: always
